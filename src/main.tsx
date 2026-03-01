@@ -1,6 +1,7 @@
 import 'virtual:uno.css'
 import '@unocss/reset/tailwind.css'
 import './styles/globals.css'
+import './styles/markdown.css'
 
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'

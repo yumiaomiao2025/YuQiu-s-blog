@@ -23,7 +23,7 @@ export function ArticlesPage() {
   const totalPages = useArticleStore((s) => s.totalPages)
   const filteredArticles = useArticleStore((s) => s.filteredArticles)
   const categories = useArticleStore((s) => s.categories)
-  const allTags = useArticleStore((s) => s.allTags)
+  const tags = useArticleStore((s) => s.tags)
   const archives = useArticleStore((s) => s.archives)
 
   return (
@@ -79,7 +79,7 @@ export function ArticlesPage() {
           />
         </div>
 
-        <Sidebar categories={categories()} tags={allTags()} archives={archives()} />
+        <Sidebar categories={categories} tags={tags} archives={archives} />
       </div>
     </PageLayout>
   )

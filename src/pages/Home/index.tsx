@@ -12,7 +12,7 @@ export function HomePage() {
   const [page, setPage] = useState(1)
   const articles = useArticleStore((s) => s.articles)
   const categories = useArticleStore((s) => s.categories)
-  const allTags = useArticleStore((s) => s.allTags)
+  const tags = useArticleStore((s) => s.tags)
 
   return (
     <PageLayout>
@@ -66,8 +66,8 @@ export function HomePage() {
         </div>
 
         <Sidebar
-          categories={categories()}
-          tags={allTags()}
+          categories={categories}
+          tags={tags}
           recentProjects={[
             { name: '智能文档助手', description: 'AI 驱动的文档工具' },
             { name: '开源组件库', description: 'React UI 组件集合' },

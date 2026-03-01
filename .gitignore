@@ -1,1 +1,18 @@
 node_modules
+dist
+
+# 构建时自动生成的数据文件
+src/data/meta.generated.json
+src/data/posts/
+
+# IDE
+.vscode
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Screenshots & temp
+*.png
+screenshot_pages.py
