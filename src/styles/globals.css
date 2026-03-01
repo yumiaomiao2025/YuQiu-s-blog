@@ -1,0 +1,21 @@
+@layer base {
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    background: #fff;
+    color: #1a1a1a;
+  }
+
+  #root {
+    height: 100%;
+  }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .font-heading {
+    font-family: 'Oswald', sans-serif;
+  }
+}
