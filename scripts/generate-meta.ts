@@ -7,6 +7,41 @@ import remarkGfm from 'remark-gfm'
 import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
 import rehypeHighlight from 'rehype-highlight'
+import type { Root, Element } from 'hast'
+import { visit } from 'unist-util-visit'
+
+function generateSlug(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\u4e00-\u9fff]+/g, '-')
+    .replace(/^-|-$/g, '')
+}
+
+function extractTextContent(node: Element): string {
+  let text = ''
+  for (const child of node.children) {
+    if (child.type === 'text') {
+      text += child.value
+    } else if (child.type === 'element') {
+      text += extractTextContent(child)
+    }
+  }
+  return text
+}
+
+function rehypeHeadingIds() {
+  return (tree: Root) => {
+    visit(tree, 'element', (node: Element) => {
+      if (/^h[1-6]$/.test(node.tagName)) {
+        const text = extractTextContent(node).trim()
+        if (text) {
+          node.properties = node.properties || {}
+          node.properties.id = generateSlug(text)
+        }
+      }
+    })
+  }
+}
 
 const POSTS_DIR = path.resolve('posts')
 const OUTPUT_DIR = path.resolve('src/data')
@@ -44,12 +79,13 @@ const mdProcessor = unified()
   .use(remarkParse)
   .use(remarkGfm)
   .use(remarkRehype, { allowDangerousHtml: true })
+  .use(rehypeHeadingIds)
   .use(rehypeHighlight, { detect: true })
   .use(rehypeStringify, { allowDangerousHtml: true })
 
 function extractHeadings(content: string): { level: number; text: string; id: string }[] {
   const headings: { level: number; text: string; id: string }[] = []
-  const lines = content.split('\n')
+  const lines = content.replace(/\r\n?/g, '\n').split('\n')
   for (const line of lines) {
     const match = /^(#{1,6})\s+(.+)$/.exec(line)
     if (match?.[1] && match[2]) {
