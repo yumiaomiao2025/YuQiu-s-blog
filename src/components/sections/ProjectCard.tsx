@@ -23,12 +23,26 @@ export function ProjectCard({ project }: ProjectCardProps) {
           ))}
         </div>
         <div className="flex items-center gap-3 mt-1">
-          <button className="rounded-1.5 bg-coral text-white font-mono text-12px px-4 py-2 border-none cursor-pointer hover:opacity-90 transition-opacity">
-            查看详情
-          </button>
-          <button className="rounded-1.5 bg-white text-coral font-mono text-12px px-4 py-2 border border-coral cursor-pointer hover:bg-coral-bg transition-colors">
-            源码
-          </button>
+          {project.url && (
+            <a
+              href={project.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-1.5 bg-coral text-white font-mono text-12px px-4 py-2 no-underline hover:opacity-90 transition-opacity"
+            >
+              查看详情
+            </a>
+          )}
+          {project.repoUrl && (
+            <a
+              href={project.repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-1.5 bg-white text-coral font-mono text-12px px-4 py-2 border border-coral no-underline hover:bg-coral-bg transition-colors"
+            >
+              源码
+            </a>
+          )}
         </div>
       </div>
     </div>

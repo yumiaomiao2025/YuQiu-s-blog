@@ -11,6 +11,8 @@ const projects: Project[] = [
       '基于 LLM 的智能文档生成工具，支持 Markdown、自定义模板和批量处理。',
     tags: ['React', 'Node.js', 'OpenAI'],
     imageUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=200&fit=crop',
+    url: '#',
+    repoUrl: '#',
   },
   {
     id: '2',
@@ -18,6 +20,8 @@ const projects: Project[] = [
     description: '一套轻量级 UI 组件集，基于 React 和 TypeScript 构建。',
     tags: ['TypeScript', 'Storybook'],
     imageUrl: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=200&fit=crop',
+    url: '#',
+    repoUrl: '#',
   },
   {
     id: '3',
@@ -25,6 +29,8 @@ const projects: Project[] = [
     description: '命令行项目模板生成工具，自动集成 ESLint、Prettier、Husky。',
     tags: ['Node.js', 'CLI'],
     imageUrl: 'https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=400&h=200&fit=crop',
+    url: '#',
+    repoUrl: '#',
   },
   {
     id: '4',
@@ -32,6 +38,8 @@ const projects: Project[] = [
     description: '基于 ECharts 的数据分析仪表盘，支持实时数据流和自定义图表。',
     tags: ['Vue', 'ECharts', 'WebSocket'],
     imageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=200&fit=crop',
+    url: '#',
+    repoUrl: '#',
   },
 ]
 

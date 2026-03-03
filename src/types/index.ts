@@ -9,14 +9,6 @@ export interface Article {
   slug: string
 }
 
-export interface Project {
-  id: string
-  name: string
-  description: string
-  tags: string[]
-  imageUrl: string
-}
-
 export interface TimelineEntry {
   hash: string
   year: string
@@ -34,4 +26,12 @@ export interface ArchiveMonth {
   count: number
 }
 
-export type NavRoute = '/' | '/articles' | '/article/:slug' | '/projects' | '/about'
+export interface Project {
+  id: string
+  name: string
+  description: string
+  tags: string[]
+  imageUrl: string
+  url?: string
+  repoUrl?: string
+}

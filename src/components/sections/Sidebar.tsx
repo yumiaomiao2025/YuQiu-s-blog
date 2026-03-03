@@ -1,5 +1,5 @@
+import { Link } from 'react-router-dom'
 import { SidebarCard } from '../common/SidebarCard'
-import { TagBadge } from '../common/TagBadge'
 import type { CategoryCount, ArchiveMonth } from '@/types'
 
 interface SidebarProps {
@@ -15,10 +15,14 @@ export function Sidebar({ categories, tags, archives, recentProjects }: SidebarP
       <SidebarCard command="ls /categories">
         <div className="flex flex-col gap-2">
           {categories.map((cat) => (
-            <div key={cat.name} className="flex items-center justify-between">
+            <Link
+              key={cat.name}
+              to={`/articles?category=${encodeURIComponent(cat.name)}`}
+              className="flex items-center justify-between no-underline hover:opacity-75 transition-opacity"
+            >
               <span className="font-mono text-13px text-text-primary">{cat.name}</span>
               <span className="font-mono text-12px text-coral">{cat.count}</span>
-            </div>
+            </Link>
           ))}
         </div>
       </SidebarCard>
@@ -26,7 +30,13 @@ export function Sidebar({ categories, tags, archives, recentProjects }: SidebarP
       <SidebarCard command="cat tags.json">
         <div className="flex flex-wrap gap-2">
           {tags.map((tag) => (
-            <TagBadge key={tag} label={tag} className="px-2.5 py-1" />
+            <Link
+              key={tag}
+              to={`/articles?tag=${encodeURIComponent(tag)}`}
+              className="rounded-1 px-2.5 py-1 border border-border font-mono text-11px text-text-secondary no-underline hover:text-coral hover:border-coral transition-colors"
+            >
+              {tag}
+            </Link>
           ))}
         </div>
       </SidebarCard>
@@ -35,10 +45,14 @@ export function Sidebar({ categories, tags, archives, recentProjects }: SidebarP
         <SidebarCard command="ls -t ~/archive">
           <div className="flex flex-col gap-2">
             {archives.map((a) => (
-              <div key={a.label} className="flex items-center justify-between">
+              <Link
+                key={a.label}
+                to={`/articles?archive=${encodeURIComponent(a.label)}`}
+                className="flex items-center justify-between no-underline hover:opacity-75 transition-opacity"
+              >
                 <span className="font-mono text-13px text-text-primary">{a.label}</span>
                 <span className="font-mono text-12px text-text-secondary">{a.count} 篇</span>
-              </div>
+              </Link>
             ))}
           </div>
         </SidebarCard>

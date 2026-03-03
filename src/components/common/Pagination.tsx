@@ -1,12 +1,38 @@
+import { useEffect } from 'react'
+
 interface PaginationProps {
   currentPage: number
   totalPages: number
   onPageChange: (page: number) => void
   pageSize?: number
+  onPageSizeChange?: (size: number) => void
 }
 
-export function Pagination({ currentPage, totalPages, onPageChange, pageSize = 10 }: PaginationProps) {
+const PAGE_SIZE_OPTIONS = [5, 10, 20]
+
+export function Pagination({
+  currentPage,
+  totalPages,
+  onPageChange,
+  pageSize = 10,
+  onPageSizeChange,
+}: PaginationProps) {
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement).tagName
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || (e.target as HTMLElement).isContentEditable) return
+
+      if (e.key === 'ArrowLeft' && currentPage > 1) {
+        onPageChange(currentPage - 1)
+      } else if (e.key === 'ArrowRight' && currentPage < totalPages) {
+        onPageChange(currentPage + 1)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [currentPage, totalPages, onPageChange])
 
   return (
     <div className="flex items-center justify-center gap-4 pt-6">
@@ -44,7 +70,23 @@ export function Pagination({ currentPage, totalPages, onPageChange, pageSize = 1
 
       <div className="flex items-center gap-1 rounded-1 px-3 py-1.5 border border-border">
         <span className="font-mono text-12px font-600 text-green-accent">$</span>
-        <span className="font-mono text-12px text-text-secondary">show {pageSize} 条/页</span>
+        <span className="font-mono text-12px text-text-secondary">show</span>
+        {onPageSizeChange ? (
+          <select
+            value={pageSize}
+            onChange={(e) => onPageSizeChange(Number(e.target.value))}
+            className="font-mono text-12px text-text-primary bg-transparent border-none outline-none cursor-pointer"
+          >
+            {PAGE_SIZE_OPTIONS.map((size) => (
+              <option key={size} value={size}>
+                {size}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <span className="font-mono text-12px text-text-secondary">{pageSize}</span>
+        )}
+        <span className="font-mono text-12px text-text-secondary">条/页</span>
       </div>
     </div>
   )

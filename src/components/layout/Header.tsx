@@ -1,10 +1,10 @@
 import { Link, useLocation } from 'react-router-dom'
 
 const navItems = [
-  { label: '首页', path: '/', cmd: '$ cd 首页' },
-  { label: '文章', path: '/articles', cmd: '$ cd 文章' },
-  { label: '项目', path: '/projects', cmd: '$ cd 项目' },
-  { label: '关于', path: '/about', cmd: '$ cd 关于' },
+  { path: '/', cmd: '$ cd 首页' },
+  { path: '/articles', cmd: '$ cd 文章' },
+  { path: '/projects', cmd: '$ cd 项目' },
+  { path: '/about', cmd: '$ cd 关于' },
 ]
 
 export function Header() {

@@ -1,15 +1,12 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { PageLayout } from '@/components/layout/PageLayout'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { ArticleCard } from '@/components/sections/ArticleCard'
 import { Sidebar } from '@/components/sections/Sidebar'
-import { Pagination } from '@/components/common/Pagination'
 import { CodeBlock, CodeLine } from '@/components/common/CodeBlock'
 import { useArticleStore } from '@/stores/useArticleStore'
 
 export function HomePage() {
-  const [page, setPage] = useState(1)
   const articles = useArticleStore((s) => s.articles)
   const categories = useArticleStore((s) => s.categories)
   const tags = useArticleStore((s) => s.tags)
@@ -62,7 +59,12 @@ export function HomePage() {
           {articles.slice(0, 3).map((article) => (
             <ArticleCard key={article.id} article={article} />
           ))}
-          <Pagination currentPage={page} totalPages={3} onPageChange={setPage} pageSize={12} />
+          <Link
+            to="/articles"
+            className="flex items-center justify-center gap-2 rounded-2 border border-border py-3 font-mono text-sm text-coral no-underline hover:bg-gray-50 transition-colors"
+          >
+            查看全部文章 →
+          </Link>
         </div>
 
         <Sidebar
