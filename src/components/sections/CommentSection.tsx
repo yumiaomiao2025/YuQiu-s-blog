@@ -16,7 +16,7 @@ export function CommentSection({ prevArticle, nextArticle }: CommentSectionProps
     el.innerHTML = ''
     const script = document.createElement('script')
     script.src = 'https://utteranc.es/client.js'
-    script.setAttribute('repo', 'owner/repo')
+    script.setAttribute('repo', 'yumiaomiao2025/YuQiu-s-blog')
     script.setAttribute('issue-term', 'pathname')
     script.setAttribute('theme', 'github-light')
     script.setAttribute('crossorigin', 'anonymous')
