@@ -28,10 +28,10 @@ export function Header() {
           <Link
             key={item.path}
             to={item.path}
-            className={`rounded-1 px-4 py-1.5 border border-border font-mono text-13px no-underline transition-colors hover:bg-gray-50 ${
+            className={`rounded-1 px-4 py-1.5 border font-mono text-13px no-underline transition-colors hover:bg-gray-50 ${
               isActive(item.path)
-                ? 'text-text-primary font-normal'
-                : 'text-text-secondary font-normal'
+                ? 'border-coral text-coral font-normal'
+                : 'border-border text-text-secondary font-normal'
             }`}
           >
             {item.cmd}
