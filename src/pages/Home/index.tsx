@@ -19,7 +19,7 @@ export function HomePage() {
           <div className="flex items-center gap-4">
             <span className="font-mono text-5xl font-700 text-coral">&gt;</span>
             <h1 className="font-heading text-5xl font-700 text-text-primary m-0">
-              你好，我是 YuQiu
+              你好，我是 YuQiu...
             </h1>
           </div>
         }
