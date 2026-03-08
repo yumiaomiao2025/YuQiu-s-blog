@@ -10,13 +10,15 @@ interface HeroSectionProps {
 
 export function HeroSection({ comment, title, subtitle, children }: HeroSectionProps) {
   return (
-    <section className="px-20 py-12 border-b border-border bg-white">
-      <TerminalComment text={comment} />
-      <div className="mt-4">{title}</div>
-      <p className="font-mono text-sm text-text-secondary leading-relaxed mt-4 max-w-[700px]">
-        {subtitle}
-      </p>
-      {children && <div className="mt-6">{children}</div>}
+    <section className="bg-white py-12">
+      <div className="page-container border-b border-border pb-12">
+        <TerminalComment text={comment} />
+        <div className="mt-4">{title}</div>
+        <p className="font-mono text-sm text-text-secondary leading-relaxed mt-4 max-w-[700px]">
+          {subtitle}
+        </p>
+        {children && <div className="mt-6">{children}</div>}
+      </div>
     </section>
   )
 }

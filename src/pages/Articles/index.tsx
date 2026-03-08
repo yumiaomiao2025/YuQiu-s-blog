@@ -65,7 +65,7 @@ export function ArticlesPage() {
         totalCount={filteredArticles().length}
       />
 
-      <div className="flex gap-8 p-12">
+      <div className="page-container flex gap-8 py-12">
         <div className="flex-1 flex flex-col gap-0">
           <div className="flex items-center gap-3 pb-4 border-b border-border mb-4">
             <span className="font-mono text-12px font-600 text-coral">$ sort --by</span>

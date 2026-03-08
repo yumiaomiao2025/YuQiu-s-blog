@@ -13,6 +13,12 @@
     overflow: hidden;
   }
 
+  .page-container {
+    width: clamp(760px, 88vw, 1120px);
+    max-width: calc(100% - 32px);
+    margin: 0 auto;
+  }
+
   .custom-scrollbar {
     --scrollbar-thumb: transparent;
     --scrollbar-thumb-hover: transparent;

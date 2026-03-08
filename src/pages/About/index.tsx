@@ -35,45 +35,51 @@ const timeline: TimelineEntry[] = [
 export function AboutPage() {
   return (
     <PageLayout>
-      <section className="flex items-center gap-12 px-20 py-16 border-b border-border">
-        <div className="w-45 h-45 rounded-full bg-code-bg border-3 border-coral flex items-center justify-center shrink-0">
-          <span className="font-heading text-6xl font-700 text-coral">YQ</span>
-        </div>
+      <section className="py-16">
+        <div className="page-container flex items-center gap-12 border-b border-border pb-16">
+          <div className="w-45 h-45 rounded-full bg-code-bg border-3 border-coral flex items-center justify-center shrink-0">
+            <span className="font-heading text-6xl font-700 text-coral">YQ</span>
+          </div>
 
-        <div className="flex-1 flex flex-col gap-4">
-          <TerminalComment text="// about.ts" />
-          <CodeBlock>
-            <CodeLine color="coral">{'class 开发者 {'}</CodeLine>
-            <CodeLine>{'  姓名 = "YuQiu";'}</CodeLine>
-            <CodeLine>{'  角色 = "全栈工程师";'}</CodeLine>
-            <CodeLine color="green">{'  座右铭 = "代码即诗，Bug 即灵感";'}</CodeLine>
-            <CodeLine>{'  爱好 = ["开源", "写作", "咖啡"];'}</CodeLine>
-            <CodeLine color="coral">{'}'}</CodeLine>
-          </CodeBlock>
-        </div>
-      </section>
-
-      <section className="px-20 py-12">
-        <TerminalBlock command="skills --list" className="text-lg mb-6" />
-        <div className="flex gap-6">
-          <SkillCard
-            title="前端开发"
-            skills={['React', 'Vue', 'TypeScript', 'Next.js', 'UnoCSS']}
-          />
-          <SkillCard
-            title="后端服务"
-            skills={['Node.js', 'Go', 'PostgreSQL', 'Redis', 'GraphQL']}
-          />
-          <SkillCard title="工具链" skills={['Docker', 'K8s', 'GitHub Actions', 'Vite']} />
+          <div className="flex-1 flex flex-col gap-4">
+            <TerminalComment text="// about.ts" />
+            <CodeBlock>
+              <CodeLine color="coral">{'class 开发者 {'}</CodeLine>
+              <CodeLine>{'  姓名 = "YuQiu";'}</CodeLine>
+              <CodeLine>{'  角色 = "全栈工程师";'}</CodeLine>
+              <CodeLine color="green">{'  座右铭 = "代码即诗，Bug 即灵感";'}</CodeLine>
+              <CodeLine>{'  爱好 = ["开源", "写作", "咖啡"];'}</CodeLine>
+              <CodeLine color="coral">{'}'}</CodeLine>
+            </CodeBlock>
+          </div>
         </div>
       </section>
 
-      <section className="px-20 py-12 border-t border-border">
-        <TerminalBlock command="git log --oneline" className="text-lg mb-6" />
-        <div className="flex flex-col gap-5 pl-5">
-          {timeline.map((entry) => (
-            <TimelineItem key={entry.hash} entry={entry} />
-          ))}
+      <section className="py-12">
+        <div className="page-container">
+          <TerminalBlock command="skills --list" className="text-lg mb-6" />
+          <div className="flex gap-6">
+            <SkillCard
+              title="前端开发"
+              skills={['React', 'Vue', 'TypeScript', 'Next.js', 'UnoCSS']}
+            />
+            <SkillCard
+              title="后端服务"
+              skills={['Node.js', 'Go', 'PostgreSQL', 'Redis', 'GraphQL']}
+            />
+            <SkillCard title="工具链" skills={['Docker', 'K8s', 'GitHub Actions', 'Vite']} />
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12">
+        <div className="page-container border-t border-border pt-12">
+          <TerminalBlock command="git log --oneline" className="text-lg mb-6" />
+          <div className="flex flex-col gap-5 pl-5">
+            {timeline.map((entry) => (
+              <TimelineItem key={entry.hash} entry={entry} />
+            ))}
+          </div>
         </div>
       </section>
     </PageLayout>

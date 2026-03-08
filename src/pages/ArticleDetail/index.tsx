@@ -50,6 +50,9 @@ export function ArticleDetailPage() {
     const ids = post.headings.filter((h) => h.level <= 3).map((h) => h.id)
     if (ids.length === 0) return
 
+    const scrollContainer = document.querySelector('.custom-scrollbar')
+    if (!(scrollContainer instanceof HTMLElement)) return
+
     const handleScroll = () => {
       if (isClickScrolling.current) return
       let current = ''
@@ -62,9 +65,9 @@ export function ArticleDetailPage() {
       setActiveId(current)
     }
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
+    scrollContainer.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll()
-    return () => window.removeEventListener('scroll', handleScroll)
+    return () => scrollContainer.removeEventListener('scroll', handleScroll)
   }, [post])
 
   const handleTocClick = useCallback((e: React.MouseEvent, id: string) => {
@@ -85,7 +88,7 @@ export function ArticleDetailPage() {
   if (!post) {
     return (
       <PageLayout>
-        <div className="flex items-center justify-center py-24">
+        <div className="page-container flex items-center justify-center py-24">
           <span className="font-mono text-text-secondary">
             {slug ? '文章加载中...' : '文章不存在'}
           </span>
@@ -108,26 +111,28 @@ export function ArticleDetailPage() {
 
   return (
     <PageLayout>
-      <div className="flex items-center gap-1.5 px-12 py-4 border-b border-border bg-white">
-        <span className="font-mono text-13px font-700 text-green-accent">$</span>
-        <span className="font-mono text-13px text-text-secondary">pwd:</span>
-        <span className="font-mono text-13px text-text-secondary">~</span>
-        <span className="font-mono text-13px text-text-secondary">/</span>
-        <Link to="/" className="font-mono text-13px text-green-accent no-underline hover:underline">
-          博客
-        </Link>
-        <span className="font-mono text-13px text-text-secondary">/</span>
-        <Link
-          to="/articles"
-          className="font-mono text-13px text-green-accent no-underline hover:underline"
-        >
-          {post.meta.category}
-        </Link>
-        <span className="font-mono text-13px text-text-secondary">/</span>
-        <span className="font-mono text-13px font-600 text-text-primary">{post.meta.title}</span>
+      <div className="bg-white py-4">
+        <div className="page-container flex items-center gap-1.5 border-b border-border pb-4">
+          <span className="font-mono text-13px font-700 text-green-accent">$</span>
+          <span className="font-mono text-13px text-text-secondary">pwd:</span>
+          <span className="font-mono text-13px text-text-secondary">~</span>
+          <span className="font-mono text-13px text-text-secondary">/</span>
+          <Link to="/" className="font-mono text-13px text-green-accent no-underline hover:underline">
+            博客
+          </Link>
+          <span className="font-mono text-13px text-text-secondary">/</span>
+          <Link
+            to="/articles"
+            className="font-mono text-13px text-green-accent no-underline hover:underline"
+          >
+            {post.meta.category}
+          </Link>
+          <span className="font-mono text-13px text-text-secondary">/</span>
+          <span className="font-mono text-13px font-600 text-text-primary">{post.meta.title}</span>
+        </div>
       </div>
 
-      <div className="flex min-h-0">
+      <div className="page-container flex min-h-0">
         {hasToc && (
           <aside
             className={`shrink-0 border-r border-border transition-all duration-300 ${
@@ -223,29 +228,31 @@ export function ArticleDetailPage() {
       />
 
       {articles.length > 1 && (
-        <section className="px-12 py-8 border-t border-border">
-          <div className="flex items-center gap-2 mb-5">
-            <span className="font-mono text-lg font-700 text-coral">//</span>
-            <h3 className="font-heading text-xl font-600 text-text-primary m-0">相关推荐</h3>
-          </div>
-          <div className="flex gap-4">
-            {articles
-              .filter((a) => a.slug !== slug)
-              .slice(0, 3)
-              .map((ra) => (
-                <Link
-                  key={ra.slug}
-                  to={`/article/${ra.slug}`}
-                  className="flex-1 rounded-2 border border-border p-4 no-underline hover:shadow-sm transition-shadow"
-                >
-                  <h4 className="font-heading text-base font-600 text-text-primary m-0">
-                    {ra.title}
-                  </h4>
-                  <span className="font-mono text-11px text-text-secondary mt-2 block">
-                    {new Date(ra.date).toLocaleDateString('zh-CN')} · {ra.category}
-                  </span>
-                </Link>
-              ))}
+        <section className="py-8">
+          <div className="page-container border-t border-border pt-8">
+            <div className="flex items-center gap-2 mb-5">
+              <span className="font-mono text-lg font-700 text-coral">//</span>
+              <h3 className="font-heading text-xl font-600 text-text-primary m-0">相关推荐</h3>
+            </div>
+            <div className="flex gap-4">
+              {articles
+                .filter((a) => a.slug !== slug)
+                .slice(0, 3)
+                .map((ra) => (
+                  <Link
+                    key={ra.slug}
+                    to={`/article/${ra.slug}`}
+                    className="flex-1 rounded-2 border border-border p-4 no-underline hover:shadow-sm transition-shadow"
+                  >
+                    <h4 className="font-heading text-base font-600 text-text-primary m-0">
+                      {ra.title}
+                    </h4>
+                    <span className="font-mono text-11px text-text-secondary mt-2 block">
+                      {new Date(ra.date).toLocaleDateString('zh-CN')} · {ra.category}
+                    </span>
+                  </Link>
+                ))}
+            </div>
           </div>
         </section>
       )}

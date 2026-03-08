@@ -57,14 +57,9 @@ export function ProjectsPage() {
         subtitle="> 开源项目与作品集——每一行代码都是一次探索"
       />
 
-      <div className="flex flex-col gap-8 px-20 py-12">
-        <div className="flex gap-6">
-          {projects.slice(0, 2).map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-        </div>
-        <div className="flex gap-6">
-          {projects.slice(2, 4).map((project) => (
+      <div className="page-container py-12">
+        <div className="grid grid-cols-2 gap-6">
+          {projects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>

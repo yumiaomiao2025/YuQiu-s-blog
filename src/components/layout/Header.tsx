@@ -16,28 +16,30 @@ export function Header() {
   }
 
   return (
-    <header className="flex items-center justify-between px-12 py-4 bg-white border-b border-border">
-      <Link to="/" className="flex items-center gap-2 no-underline">
-        <span className="font-mono text-xl font-700 text-coral">&gt;</span>
-        <span className="font-mono text-xl font-700 text-text-primary">yuqiu_</span>
-        <span className="w-0.5 h-6 bg-coral" />
-      </Link>
+    <header className="bg-white">
+      <div className="page-container flex items-center justify-between border-b border-border py-4">
+        <Link to="/" className="flex items-center gap-2 no-underline">
+          <span className="font-mono text-xl font-700 text-coral">&gt;</span>
+          <span className="font-mono text-xl font-700 text-text-primary">yuqiu_</span>
+          <span className="w-0.5 h-6 bg-coral" />
+        </Link>
 
-      <nav className="flex items-center gap-1.5">
-        {navItems.map((item) => (
-          <Link
-            key={item.path}
-            to={item.path}
-            className={`rounded-1 px-4 py-1.5 border font-mono text-13px no-underline transition-colors hover:bg-gray-50 ${
-              isActive(item.path)
-                ? 'border-coral text-coral font-normal'
-                : 'border-border text-text-secondary font-normal'
-            }`}
-          >
-            {item.cmd}
-          </Link>
-        ))}
-      </nav>
+        <nav className="flex items-center gap-1.5">
+          {navItems.map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`rounded-1 px-4 py-1.5 border font-mono text-13px no-underline transition-colors hover:bg-gray-50 ${
+                isActive(item.path)
+                  ? 'border-coral text-coral font-normal'
+                  : 'border-border text-text-secondary font-normal'
+              }`}
+            >
+              {item.cmd}
+            </Link>
+          ))}
+        </nav>
+      </div>
     </header>
   )
 }

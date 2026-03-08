@@ -50,7 +50,7 @@ export function HomePage() {
         </div>
       </HeroSection>
 
-      <div className="flex gap-8 p-12">
+      <div className="page-container flex gap-8 py-12">
         <div className="flex-1 flex flex-col gap-6">
           <div className="flex items-center gap-2">
             <span className="font-mono text-lg font-700 text-coral">//</span>

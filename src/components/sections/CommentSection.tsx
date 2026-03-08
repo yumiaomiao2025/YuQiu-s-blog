@@ -25,33 +25,35 @@ export function CommentSection({ prevArticle, nextArticle }: CommentSectionProps
   }, [])
 
   return (
-    <section className="px-30 py-8">
-      {(prevArticle ?? nextArticle) && (
-        <div className="flex items-center justify-between pb-5 border-b border-border mb-6">
-          {prevArticle ? (
-            <Link
-              to={`/article/${prevArticle.slug}`}
-              className="font-mono text-sm font-600 text-coral no-underline hover:underline"
-            >
-              ← {prevArticle.title}
-            </Link>
-          ) : (
-            <span />
-          )}
-          {nextArticle ? (
-            <Link
-              to={`/article/${nextArticle.slug}`}
-              className="font-mono text-sm font-600 text-coral no-underline hover:underline"
-            >
-              {nextArticle.title} →
-            </Link>
-          ) : (
-            <span />
-          )}
-        </div>
-      )}
+    <section className="py-8">
+      <div className="page-container">
+        {(prevArticle ?? nextArticle) && (
+          <div className="flex items-center justify-between pb-5 border-b border-border mb-6">
+            {prevArticle ? (
+              <Link
+                to={`/article/${prevArticle.slug}`}
+                className="font-mono text-sm font-600 text-coral no-underline hover:underline"
+              >
+                ← {prevArticle.title}
+              </Link>
+            ) : (
+              <span />
+            )}
+            {nextArticle ? (
+              <Link
+                to={`/article/${nextArticle.slug}`}
+                className="font-mono text-sm font-600 text-coral no-underline hover:underline"
+              >
+                {nextArticle.title} →
+              </Link>
+            ) : (
+              <span />
+            )}
+          </div>
+        )}
 
-      <div ref={containerRef} />
+        <div ref={containerRef} />
+      </div>
     </section>
   )
 }
