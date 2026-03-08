@@ -3,12 +3,36 @@
   body {
     height: 100%;
     margin: 0;
+    overflow: hidden;
     background: #fff;
     color: #1a1a1a;
   }
 
   #root {
     height: 100%;
+    overflow: hidden;
+  }
+
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #D1D0CB transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #D1D0CB;
+    border-radius: 9999px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #8b929e;
   }
 
   .font-mono {

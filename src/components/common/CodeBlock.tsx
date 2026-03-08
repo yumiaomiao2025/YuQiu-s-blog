@@ -36,6 +36,6 @@ export function CodeLine({ children, color = 'default' }: CodeLineProps) {
   }
 
   return (
-    <span className={`font-mono text-13px ${colorMap[color]}`}>{children}</span>
+    <span className={`font-mono text-13px whitespace-pre ${colorMap[color]}`}>{children}</span>
   )
 }

@@ -19,18 +19,18 @@ export function HomePage() {
           <div className="flex items-center gap-4">
             <span className="font-mono text-5xl font-700 text-coral">&gt;</span>
             <h1 className="font-heading text-5xl font-700 text-text-primary m-0">
-              你好，我是 YuQiu...
+              你好，我是 YuQiu
             </h1>
           </div>
         }
-        subtitle="> 一个热爱折腾的全栈开发者，专注于用技术解决真实问题"
+        subtitle="> 一个努力迈向全栈的前端开发者，专注于用抽象的技术解决现实问题"
       >
         <CodeBlock className="max-w-md">
           <CodeLine color="muted">{'const developer = {'}</CodeLine>
           <CodeLine>{'  name: "YuQiu",'}</CodeLine>
-          <CodeLine>{'  role: "全栈工程师",'}</CodeLine>
-          <CodeLine color="green">{'  skills: ["前端", "后端", "DevOps"],'}</CodeLine>
-          <CodeLine color="coral">{'  passion: "构建优雅的解决方案"'}</CodeLine>
+          <CodeLine>{'  role: "前端工程师",'}</CodeLine>
+          <CodeLine color="green">{'  skills: ["前端", "后端"],'}</CodeLine>
+          <CodeLine color="coral">{'  passion: "构建优雅而丰富的解决方案"'}</CodeLine>
           <CodeLine color="muted">{'};'}</CodeLine>
         </CodeBlock>
 
