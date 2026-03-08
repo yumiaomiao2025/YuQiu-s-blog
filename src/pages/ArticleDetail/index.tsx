@@ -5,6 +5,7 @@ import { TagBadge } from '@/components/common/TagBadge'
 import { MarkdownRenderer } from '@/components/common/MarkdownRenderer'
 import { CommentSection } from '@/components/sections/CommentSection'
 import { useArticleStore } from '@/stores/useArticleStore'
+import { formatArticleDate } from '@/utils/formatArticleDate'
 
 interface PostData {
   meta: {
@@ -21,6 +22,8 @@ interface PostData {
   html: string
 }
 
+const TOC_STORAGE_KEY = 'article-detail-toc-open'
+
 const postModules = import.meta.glob<{ default: PostData }>('/src/data/posts/*.json', {
   eager: true,
 })
@@ -34,7 +37,11 @@ export function ArticleDetailPage() {
   const { slug } = useParams<{ slug: string }>()
   const articles = useArticleStore((s) => s.articles)
   const [post, setPost] = useState<PostData | undefined>()
-  const [tocOpen, setTocOpen] = useState(true)
+  const [tocOpen, setTocOpen] = useState(() => {
+    if (typeof window === 'undefined') return true
+    const saved = window.localStorage.getItem(TOC_STORAGE_KEY)
+    return saved === null ? true : saved === 'true'
+  })
   const [activeId, setActiveId] = useState('')
   const isClickScrolling = useRef(false)
   const toggleToc = useCallback(() => setTocOpen((v) => !v), [])
@@ -70,6 +77,10 @@ export function ArticleDetailPage() {
     return () => scrollContainer.removeEventListener('scroll', handleScroll)
   }, [post])
 
+  useEffect(() => {
+    window.localStorage.setItem(TOC_STORAGE_KEY, String(tocOpen))
+  }, [tocOpen])
+
   const handleTocClick = useCallback((e: React.MouseEvent, id: string) => {
     e.preventDefault()
     const el = document.getElementById(id)
@@ -101,11 +112,7 @@ export function ArticleDetailPage() {
   const prevArticle = currentIdx > 0 ? articles[currentIdx - 1] : undefined
   const nextArticle = currentIdx < articles.length - 1 ? articles[currentIdx + 1] : undefined
 
-  const dateStr = new Date(post.meta.date).toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  })
+  const dateStr = formatArticleDate(post.meta.date)
 
   const hasToc = post.headings.length > 0
 
@@ -135,7 +142,7 @@ export function ArticleDetailPage() {
       <div className="page-container flex min-h-0">
         {hasToc && (
           <aside
-            className={`shrink-0 border-r border-border transition-all duration-300 ${
+            className={`shrink-0  transition-all duration-300 ${
               tocOpen ? 'w-56' : 'w-0 overflow-hidden'
             }`}
           >
@@ -248,7 +255,7 @@ export function ArticleDetailPage() {
                       {ra.title}
                     </h4>
                     <span className="font-mono text-11px text-text-secondary mt-2 block">
-                      {new Date(ra.date).toLocaleDateString('zh-CN')} · {ra.category}
+                      {formatArticleDate(ra.date)} · {ra.category}
                     </span>
                   </Link>
                 ))}

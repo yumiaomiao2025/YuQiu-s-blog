@@ -1,10 +1,7 @@
 import { Link } from 'react-router-dom'
-import dayjs from 'dayjs'
-import 'dayjs/locale/zh-cn'
 import { TagBadge } from '../common/TagBadge'
 import type { Article } from '@/types'
-
-dayjs.locale('zh-cn')
+import { formatArticleDate } from '@/utils/formatArticleDate'
 
 interface ArticleCardProps {
   article: Article
@@ -37,7 +34,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
             ))}
           </div>
           <span className="font-mono text-11px text-text-secondary">
-            发布于 · {dayjs(article.date).format('YYYY年M月D日 dddd')}
+            发布于 · {formatArticleDate(article.date)}
           </span>
         </div>
       </div>

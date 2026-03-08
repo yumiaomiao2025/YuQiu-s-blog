@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom'
 import { TagBadge } from '../common/TagBadge'
 import type { Article } from '@/types'
+import { formatArticleDate } from '@/utils/formatArticleDate'
 
 interface ArticleListItemProps {
   article: Article
 }
 
 export function ArticleListItem({ article }: ArticleListItemProps) {
+  const dateStr = formatArticleDate(article.date)
+
   return (
     <Link
       to={`/article/${article.slug}`}
@@ -14,7 +17,7 @@ export function ArticleListItem({ article }: ArticleListItemProps) {
     >
       <div className="flex items-center gap-2 mb-2.5">
         <TagBadge label={article.category} variant="category" />
-        <span className="font-mono text-11px text-text-secondary">{article.date}</span>
+        <span className="font-mono text-11px text-text-secondary">{dateStr}</span>
         <span className="font-mono text-11px text-text-secondary">·</span>
         <span className="font-mono text-11px text-text-secondary">阅读 {article.readTime}</span>
       </div>
