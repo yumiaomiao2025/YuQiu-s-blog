@@ -14,8 +14,16 @@
   }
 
   .custom-scrollbar {
+    --scrollbar-thumb: transparent;
+    --scrollbar-thumb-hover: transparent;
     scrollbar-width: thin;
-    scrollbar-color: #D1D0CB transparent;
+    scrollbar-color: transparent transparent;
+  }
+
+  .custom-scrollbar.is-scrolling {
+    --scrollbar-thumb: #d1d0cb;
+    --scrollbar-thumb-hover: #8b929e;
+    scrollbar-color: #d1d0cb transparent;
   }
 
   .custom-scrollbar::-webkit-scrollbar {
@@ -27,12 +35,13 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: #D1D0CB;
+    background-color: var(--scrollbar-thumb);
     border-radius: 9999px;
+    transition: background-color 0.2s ease;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background-color: #8b929e;
+    background-color: var(--scrollbar-thumb-hover);
   }
 
   .font-mono {

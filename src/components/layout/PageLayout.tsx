@@ -10,10 +10,38 @@ interface PageLayoutProps {
 export function PageLayout({ children }: PageLayoutProps) {
   const { pathname } = useLocation()
   const scrollRef = useRef<HTMLDivElement>(null)
+  const hideTimerRef = useRef<number | null>(null)
 
   useEffect(() => {
     scrollRef.current?.scrollTo(0, 0)
   }, [pathname])
+
+  useEffect(() => {
+    const scrollEl = scrollRef.current
+    if (!scrollEl) return
+
+    const showScrollbar = () => {
+      scrollEl.classList.add('is-scrolling')
+
+      if (hideTimerRef.current !== null) {
+        window.clearTimeout(hideTimerRef.current)
+      }
+
+      hideTimerRef.current = window.setTimeout(() => {
+        scrollEl.classList.remove('is-scrolling')
+      }, 1000)
+    }
+
+    scrollEl.addEventListener('scroll', showScrollbar, { passive: true })
+
+    return () => {
+      scrollEl.removeEventListener('scroll', showScrollbar)
+
+      if (hideTimerRef.current !== null) {
+        window.clearTimeout(hideTimerRef.current)
+      }
+    }
+  }, [])
 
   return (
     <div ref={scrollRef} className="h-full overflow-y-auto flex flex-col bg-white custom-scrollbar">
