@@ -7,6 +7,7 @@ import remarkGfm from 'remark-gfm'
 import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
 import rehypeHighlight from 'rehype-highlight'
+import rehypeRaw from 'rehype-raw'
 import type { Root, Element } from 'hast'
 import { visit } from 'unist-util-visit'
 
@@ -39,6 +40,66 @@ function rehypeHeadingIds() {
           node.properties.id = generateSlug(text)
         }
       }
+    })
+  }
+}
+
+/**
+ * 把所有 <img> 自动包成 <figure class="md-figure"><img/><figcaption>
+ *
+ * caption 来源（优先级）：title > alt > 无（只有图片，不生成 figcaption）
+ *
+ * max-width 支持（用于缩小图片）：
+ *   <img width="60%" />   → figure style="max-width:60%"
+ *   <img width="400" />   → figure style="max-width:400px"
+ *   <img width="400px" /> → figure style="max-width:400px"
+ */
+function rehypeFigureImage() {
+  return (tree: Root) => {
+    visit(tree, 'element', (node: Element, index, parent) => {
+      if (node.tagName !== 'img' || !parent || index == null) return
+      if ((parent as Element).tagName === 'figure') return
+
+      const props = node.properties ?? {}
+
+      // caption
+      const caption = String(props.title ?? props.alt ?? '')
+
+      // max-width：读取 width 属性后从 img 上移除，改挂在 figure 上
+      let figureStyle: string | undefined
+      const rawWidth = props.width as string | number | undefined
+      if (rawWidth != null && rawWidth !== '') {
+        const w = String(rawWidth).trim()
+        figureStyle = `max-width:${/^\d+$/.test(w) ? `${w}px` : w}`
+        delete props.width
+      }
+
+      // 清掉 title，避免浏览器原生 tooltip 弹出干扰
+      delete props.title
+
+      const figureProps: Record<string, unknown> = { className: ['md-figure'] }
+      if (figureStyle) figureProps.style = figureStyle
+
+      const figure: Element = {
+        type: 'element',
+        tagName: 'figure',
+        properties: figureProps,
+        children: [
+          node,
+          ...(caption
+            ? [
+                {
+                  type: 'element',
+                  tagName: 'figcaption',
+                  properties: {},
+                  children: [{ type: 'text', value: caption }],
+                } as Element,
+              ]
+            : []),
+        ],
+      }
+
+      parent.children.splice(index, 1, figure)
     })
   }
 }
@@ -79,7 +140,9 @@ const mdProcessor = unified()
   .use(remarkParse)
   .use(remarkGfm)
   .use(remarkRehype, { allowDangerousHtml: true })
+  .use(rehypeRaw)
   .use(rehypeHeadingIds)
+  .use(rehypeFigureImage)
   .use(rehypeHighlight, { detect: true })
   .use(rehypeStringify, { allowDangerousHtml: true })
 

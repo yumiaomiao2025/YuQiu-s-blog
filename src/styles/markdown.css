@@ -153,3 +153,46 @@
 .markdown-body a:hover {
   text-decoration: underline;
 }
+
+/* ── 图片 ── */
+.markdown-body figure.md-figure {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+}
+
+.markdown-body figure.md-figure img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.07);
+  transition: box-shadow 0.2s ease;
+}
+
+.markdown-body figure.md-figure img:hover {
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.13);
+}
+
+.markdown-body figure.md-figure figcaption {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: #7a7a72;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* 没有 figure 包裹的裸 img 也居中（兜底） */
+.markdown-body p > img:only-child {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.07);
+}

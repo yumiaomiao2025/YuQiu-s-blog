@@ -11,6 +11,7 @@ excerpt: 从 useState 和 useEffect 的底层原理出发，结合实际项目�
 ## 一、什么是 React Hooks
 
 React Hooks 是 React 16.8 引入的新特性，允许你在函数组件中使用 state 和其他 React 特性。在此之前，只有类组件才能拥有自己的状态和生命周期方法。Hooks 的出现彻底改变了 React 的开发范式。
+<img src="https://cdn.jsdelivr.net/gh/yumiaomiao2025/my-image-hosting@main/demo.jpg" alt="这是照片" width="60%" />
 
 ```ts
 // useCounter.ts
