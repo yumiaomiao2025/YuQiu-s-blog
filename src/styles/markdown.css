@@ -121,41 +121,84 @@
   background: transparent;
 }
 
-.markdown-body pre code .hljs-keyword {
-  color: #c75b39;
+/* 关键字：蓝色 — const, let, function, return, if, import */
+.markdown-body pre code .hljs-keyword,
+.markdown-body pre code .hljs-selector-tag {
+  color: #4078f2;
 }
 
-.markdown-body pre code .hljs-string {
-  color: #4caf50;
-}
-
-.markdown-body pre code .hljs-comment {
-  color: #7a7a72;
-}
-
-.markdown-body pre code .hljs-function {
-  color: #c75b39;
-}
-
-.markdown-body pre code .hljs-number {
-  color: #c75b39;
-}
-
-.markdown-body pre code .hljs-built_in {
-  color: #4caf50;
-}
-
+/* 函数/方法名：站点主色 */
+.markdown-body pre code .hljs-title.function_,
 .markdown-body pre code .hljs-title {
-  color: #1a1a1a;
+  color: #c75b39;
   font-weight: 600;
 }
 
-.markdown-body pre code .hljs-attr {
-  color: #4caf50;
+/* 类名、内置对象：青色 — Router, Promise, console */
+.markdown-body pre code .hljs-title.class_,
+.markdown-body pre code .hljs-built_in {
+  color: #0184bc;
 }
 
+/* 字符串、CSS class 选择器：绿色 */
+.markdown-body pre code .hljs-string,
+.markdown-body pre code .hljs-selector-class {
+  color: #50a14f;
+}
+
+/* 数字、布尔值、null：紫色 */
+.markdown-body pre code .hljs-number,
+.markdown-body pre code .hljs-literal {
+  color: #a626a4;
+}
+
+/* HTML/JSX 标签名、CSS 属性名：红色 */
+.markdown-body pre code .hljs-name,
+.markdown-body pre code .hljs-attribute {
+  color: #e45649;
+}
+
+/* HTML/JSX 属性名、对象 key：深黄 */
+.markdown-body pre code .hljs-attr {
+  color: #c18401;
+}
+
+/* this, module 等语言变量：红色 */
+.markdown-body pre code .hljs-variable.language_ {
+  color: #e45649;
+}
+
+/* 注释：灰色斜体 */
+.markdown-body pre code .hljs-comment {
+  color: #a0a1a7;
+  font-style: italic;
+}
+
+/* 函数参数、属性、类型：默认深色 */
+.markdown-body pre code .hljs-params,
+.markdown-body pre code .hljs-property {
+  color: #383a42;
+}
+
+/* 类型关键字（TS）：青色 */
 .markdown-body pre code .hljs-type {
+  color: #0184bc;
+}
+
+/* CSS 选择器 ID：橙色 */
+.markdown-body pre code .hljs-selector-id {
   color: #c75b39;
+}
+
+/* 正则、模板字符串变量：紫色 */
+.markdown-body pre code .hljs-regexp,
+.markdown-body pre code .hljs-subst {
+  color: #a626a4;
+}
+
+/* meta 标签、doctype：灰色 */
+.markdown-body pre code .hljs-meta {
+  color: #a0a1a7;
 }
 
 /* ── Horizontal rule (Notion style) ── */
