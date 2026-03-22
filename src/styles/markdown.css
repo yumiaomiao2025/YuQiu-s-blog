@@ -52,10 +52,16 @@
 }
 
 /* ── Lists ── */
-.markdown-body ul,
+.markdown-body ul {
+  margin: 0;
+  padding-left: 1.8rem;
+  list-style-type: disc;
+}
+
 .markdown-body ol {
   margin: 0;
   padding-left: 1.8rem;
+  list-style-type: decimal;
 }
 
 .markdown-body li {
@@ -206,7 +212,7 @@
   border: none;
   height: 1.5px;
   background: #37352f;
-  margin: 0;
+  margin: 2em 0;
   width: 100%;
 }
 
