@@ -92,8 +92,8 @@ app.post('/user', fn2)
 
 app._router.stack:
   └── Layer('/user') → Route
-        ├── { method: 'GET',  handler: fn1 }
-        └── { method: 'POST', handler: fn2 }
+                          ├── { method: 'GET',  handler: fn1 }
+                          └── { method: 'POST', handler: fn2 }
 
 
 写法 B —— 两个 Layer，两个 Route：
@@ -121,8 +121,8 @@ app.get('/user', fn1, fn2)
 ```
 app._router.stack:
   └── Layer('/user') → Route
-        ├── { method: 'GET', handler: fn1 }
-        └── { method: 'GET', handler: fn2 }
+                        ├── { method: 'GET', handler: fn1 }
+                        └── { method: 'GET', handler: fn2 }
 ```
 
 Express 源码中，`app.get()` 会把所有 handler 参数 flatten 后逐个推入 Route 的 stack。执行时，fn1 调用 `next()` 会进入 fn2；如果 fn1 不调用 `next()`，fn2 不会执行。
@@ -135,6 +135,7 @@ Express 源码中，`app.get()` 会把所有 handler 参数 flatten 后逐个推
 | `app.get('/user', fn1)` + `app.post('/user', fn2)` | 2 | 2 | 各自独立 |
 | `app.get('/user', fn1, fn2)` | 1 | 1 | 同方法顺序执行 |
 
+其实本质就是不同的用法创建的对应的逻辑结构
 
 ---
 
@@ -208,8 +209,8 @@ function Router() {
 app._router.stack:
   ├── Layer(middleware1)
   ├── Layer('/api/users') → router (子路由器)
-  │     ├── Layer('/list')   → Route → { GET: listUsers }
-  │     └── Layer('/create') → Route → { POST: createUser }
+  │                           ├── Layer('/list')   → Route → { GET: listUsers }
+  │                           └── Layer('/create') → Route → { POST: createUser }
   └── Layer(middleware2)
 ```
 
@@ -294,10 +295,10 @@ GET /dashboard (未登录)
 
 app._router.stack:
   Layer('/dashboard') → Route1
-    ├── handler1: 检查 req.user → next('route') ← 跳过 Route1 剩余 handler
-    └── handler2: 发送"欢迎回来"      ← 被跳过
+                          ├── handler1: 检查 req.user → next('route') ← 跳过 Route1 剩余 handler
+                          └── handler2: 发送"欢迎回来"      ← 被跳过
   Layer('/dashboard') → Route2
-    └── handler3: 发送"请先登录"      ← 继续执行
+                          └── handler3: 发送"请先登录"      ← 继续执行
 ```
 
 ### 3.2 next('router')：跳出整个子路由器
@@ -332,10 +333,10 @@ GET /api/data (无 x-api-key)
 
 app._router.stack:
   Layer('/api') → apiRouter (子路由器)
-    ├── middleware: 检查 API key → next('router') ← 跳出整个子路由器
-    └── route('/data'): 返回数据      ← 被跳过
+                      ├── middleware: 检查 API key → next('router') ← 跳出整个子路由器
+                      └── route('/data'): 返回数据      ← 被跳过
   Layer('/api') → fallback handler     ← 回到父 stack，继续执行
-    └── 返回 403
+                      └── 返回 403
 ```
 
 关键区别：`next('router')` 不仅跳过了子路由器中的剩余中间件和路由，还**回到了父路由器的控制流**。
@@ -355,8 +356,8 @@ app._router.stack:
 app._router.stack:
   Layer(middleware1)
   Layer('/api') → apiRouter
-      ├── route1      ← next('router') 在这里调用
-      └── middleware2  ← 被跳过
+                      ├── route1      ← next('router') 在这里调用
+                      └── middleware2  ← 被跳过
   Layer(middleware3)    ← 正常执行（不会被跳过）
   Layer('/other') → otherRouter  ← 正常执行
 ```
