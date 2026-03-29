@@ -33,7 +33,7 @@ mini-express/
 
 ## 风格 A：闭包 + 函数对象
 
-### Route
+### Route（闭包）
 
 ```js
 // router/route.js
@@ -98,7 +98,7 @@ function createRoute(path) {
 module.exports = createRoute
 ```
 
-### Layer
+### Layer（闭包）
 
 ```js
 // router/layer.js
@@ -120,7 +120,7 @@ function createLayer(path, handler) {
 module.exports = createLayer
 ```
 
-### Router
+### Router（闭包）
 
 Router 本身必须是一个函数（这样才能作为 handler 传入 `app.use('/api', router)`），同时又需要拥有 `use`、`route`、`handle` 等方法。闭包风格的解法是：创建内部函数 `router`，然后直接把所有方法作为属性挂在这个函数上。
 
@@ -233,7 +233,7 @@ function createRouter() {
 module.exports = createRouter
 ```
 
-### Application + 入口
+### Application + 入口（闭包）
 
 ```js
 // application.js
@@ -324,7 +324,7 @@ module.exports = express
 
 ## 风格 B：构造函数 + 原型链
 
-### Route
+### Route（原型链）
 
 ```js
 // router/route.js
@@ -387,7 +387,7 @@ Route.prototype.dispatch = function(req, res, done) {
 module.exports = Route
 ```
 
-### Layer
+### Layer（原型链）
 
 ```js
 // router/layer.js
@@ -408,7 +408,7 @@ Layer.prototype.match = function(url) {
 module.exports = Layer
 ```
 
-### Router
+### Router（原型链）
 
 prototype 风格的解法：创建内部函数 `router`，然后用 `Object.setPrototypeOf(router, Router.prototype)` 让这个函数实例接入原型链，从而同时具备"可调用"和"有实例方法"两个特性——这也是真实 Express 源码的做法。
 
@@ -520,7 +520,7 @@ Router.prototype.handle = function(req, res, done) {
 module.exports = Router
 ```
 
-### Application + 入口
+### Application + 入口（原型链）
 
 ```js
 // application.js
