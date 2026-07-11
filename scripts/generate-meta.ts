@@ -1,108 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import matter from 'gray-matter'
-import { unified } from 'unified'
-import remarkParse from 'remark-parse'
-import remarkGfm from 'remark-gfm'
-import remarkRehype from 'remark-rehype'
-import rehypeStringify from 'rehype-stringify'
-import rehypeHighlight from 'rehype-highlight'
-import rehypeRaw from 'rehype-raw'
-import type { Root, Element } from 'hast'
-import { visit } from 'unist-util-visit'
-
-function generateSlug(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^\w\u4e00-\u9fff]+/g, '-')
-    .replace(/^-|-$/g, '')
-}
-
-function extractTextContent(node: Element): string {
-  let text = ''
-  for (const child of node.children) {
-    if (child.type === 'text') {
-      text += child.value
-    } else if (child.type === 'element') {
-      text += extractTextContent(child)
-    }
-  }
-  return text
-}
-
-function rehypeHeadingIds() {
-  return (tree: Root) => {
-    visit(tree, 'element', (node: Element) => {
-      if (/^h[1-6]$/.test(node.tagName)) {
-        const text = extractTextContent(node).trim()
-        if (text) {
-          node.properties = node.properties || {}
-          node.properties.id = generateSlug(text)
-        }
-      }
-    })
-  }
-}
-
-/**
- * 把所有 <img> 自动包成 <figure class="md-figure"><img/><figcaption>
- *
- * caption 来源（优先级）：title > alt > 无（只有图片，不生成 figcaption）
- *
- * max-width 支持（用于缩小图片）：
- *   <img width="60%" />   → figure style="max-width:60%"
- *   <img width="400" />   → figure style="max-width:400px"
- *   <img width="400px" /> → figure style="max-width:400px"
- */
-function rehypeFigureImage() {
-  return (tree: Root) => {
-    visit(tree, 'element', (node: Element, index, parent) => {
-      if (node.tagName !== 'img' || !parent || index == null) return
-      if ((parent as Element).tagName === 'figure') return
-
-      const props = node.properties ?? {}
-
-      // caption
-      const caption = String(props.title ?? props.alt ?? '')
-
-      // max-width：读取 width 属性后从 img 上移除，改挂在 figure 上
-      let figureStyle: string | undefined
-      const rawWidth = props.width as string | number | undefined
-      if (rawWidth != null && rawWidth !== '') {
-        const w = String(rawWidth).trim()
-        figureStyle = `max-width:${/^\d+$/.test(w) ? `${w}px` : w}`
-        delete props.width
-      }
-
-      // 清掉 title，避免浏览器原生 tooltip 弹出干扰
-      delete props.title
-
-      const figureProps: Record<string, unknown> = { className: ['md-figure'] }
-      if (figureStyle) figureProps.style = figureStyle
-
-      const figure: Element = {
-        type: 'element',
-        tagName: 'figure',
-        properties: figureProps,
-        children: [
-          node,
-          ...(caption
-            ? [
-                {
-                  type: 'element',
-                  tagName: 'figcaption',
-                  properties: {},
-                  children: [{ type: 'text', value: caption }],
-                } as Element,
-              ]
-            : []),
-        ],
-      }
-
-      parent.children.splice(index, 1, figure)
-    })
-  }
-}
+import { renderMarkdown } from './markdown/render-markdown.js'
 
 const POSTS_DIR = path.resolve('posts')
 const OUTPUT_DIR = path.resolve('src/data')
@@ -136,33 +35,6 @@ interface GeneratedMeta {
   archives: ArchiveMonth[]
 }
 
-const mdProcessor = unified()
-  .use(remarkParse)
-  .use(remarkGfm)
-  .use(remarkRehype, { allowDangerousHtml: true })
-  .use(rehypeRaw)
-  .use(rehypeHeadingIds)
-  .use(rehypeFigureImage)
-  .use(rehypeHighlight, { detect: true })
-  .use(rehypeStringify, { allowDangerousHtml: true })
-
-function extractHeadings(content: string): { level: number; text: string; id: string }[] {
-  const headings: { level: number; text: string; id: string }[] = []
-  const lines = content.replace(/\r\n?/g, '\n').split('\n')
-  for (const line of lines) {
-    const match = /^(#{1,6})\s+(.+)$/.exec(line)
-    if (match?.[1] && match[2]) {
-      const text = match[2].trim()
-      const id = text
-        .toLowerCase()
-        .replace(/[^\w\u4e00-\u9fff]+/g, '-')
-        .replace(/^-|-$/g, '')
-      headings.push({ level: match[1].length, text, id })
-    }
-  }
-  return headings
-}
-
 async function main() {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true })
   fs.mkdirSync(POSTS_OUTPUT_DIR, { recursive: true })
@@ -189,19 +61,15 @@ async function main() {
 
     articles.push(meta)
 
-    const htmlResult = await mdProcessor.process(content)
-    const headings = extractHeadings(content)
+    const rendered = await renderMarkdown(content)
 
     const postData = {
       meta,
-      headings,
-      html: String(htmlResult),
+      headings: rendered.headings,
+      html: rendered.html,
     }
 
-    fs.writeFileSync(
-      path.join(POSTS_OUTPUT_DIR, `${slug}.json`),
-      JSON.stringify(postData, null, 2),
-    )
+    fs.writeFileSync(path.join(POSTS_OUTPUT_DIR, `${slug}.json`), JSON.stringify(postData, null, 2))
 
     console.log(`  ✓ ${slug}`)
   }
@@ -230,10 +98,7 @@ async function main() {
     archives: Array.from(archiveMap.entries()).map(([label, count]) => ({ label, count })),
   }
 
-  fs.writeFileSync(
-    path.join(OUTPUT_DIR, 'meta.generated.json'),
-    JSON.stringify(generated, null, 2),
-  )
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'meta.generated.json'), JSON.stringify(generated, null, 2))
 
   console.log(`\n✓ 生成完成: ${articles.length} 篇文章`)
   console.log(`  分类: ${generated.categories.map((c) => `${c.name}(${c.count})`).join(', ')}`)

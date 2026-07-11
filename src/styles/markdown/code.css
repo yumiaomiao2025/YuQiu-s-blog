@@ -1,0 +1,106 @@
+.markdown-body code:not(pre code) {
+  padding: 2px 5px;
+  color: var(--md-inline-code-text);
+  font-family: 'SFMono-Regular', 'Fira Code', Consolas, 'Courier New', monospace;
+  font-size: 0.95em;
+  background: var(--md-inline-code-bg);
+  border: none;
+  border-radius: 4px;
+}
+
+.markdown-body pre {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  background: var(--md-code-bg);
+  border: 1px solid var(--md-border);
+  border-radius: 8px;
+}
+
+.markdown-body pre::before {
+  display: block;
+  height: 36px;
+  content: '';
+  background-color: var(--md-code-toolbar-bg);
+  background-image:
+    radial-gradient(circle at 20px 50%, #ff5f57 5px, transparent 5px),
+    radial-gradient(circle at 40px 50%, #febc2e 5px, transparent 5px),
+    radial-gradient(circle at 60px 50%, #28c840 5px, transparent 5px);
+  border-bottom: 1px solid var(--md-border);
+}
+
+.markdown-body pre code {
+  display: block;
+  padding: 16px 20px;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  background: transparent;
+}
+
+.markdown-body pre code .hljs-keyword,
+.markdown-body pre code .hljs-selector-tag {
+  color: #4078f2;
+}
+
+.markdown-body pre code .hljs-title.function_,
+.markdown-body pre code .hljs-title {
+  color: var(--md-accent);
+  font-weight: 600;
+}
+
+.markdown-body pre code .hljs-title.class_,
+.markdown-body pre code .hljs-built_in {
+  color: #0184bc;
+}
+
+.markdown-body pre code .hljs-string,
+.markdown-body pre code .hljs-selector-class {
+  color: #50a14f;
+}
+
+.markdown-body pre code .hljs-number,
+.markdown-body pre code .hljs-literal {
+  color: #a626a4;
+}
+
+.markdown-body pre code .hljs-name,
+.markdown-body pre code .hljs-attribute {
+  color: #e45649;
+}
+
+.markdown-body pre code .hljs-attr {
+  color: #c18401;
+}
+
+.markdown-body pre code .hljs-variable.language_ {
+  color: #e45649;
+}
+
+.markdown-body pre code .hljs-comment {
+  color: #a0a1a7;
+  font-style: italic;
+}
+
+.markdown-body pre code .hljs-params,
+.markdown-body pre code .hljs-property {
+  color: #383a42;
+}
+
+.markdown-body pre code .hljs-type {
+  color: #0184bc;
+}
+
+.markdown-body pre code .hljs-selector-id {
+  color: var(--md-accent);
+}
+
+.markdown-body pre code .hljs-regexp,
+.markdown-body pre code .hljs-subst {
+  color: #a626a4;
+}
+
+.markdown-body pre code .hljs-meta {
+  color: #a0a1a7;
+}

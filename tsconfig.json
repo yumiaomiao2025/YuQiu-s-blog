@@ -23,5 +23,5 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src", "uno.config.ts", "vite.config.ts"]
+  "include": ["src", "scripts", "uno.config.ts", "vite.config.ts"]
 }
